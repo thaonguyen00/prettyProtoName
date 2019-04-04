@@ -25,12 +25,12 @@ func main() {
 	app.Usage = "REST APIs for getting agent details"
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
-			Name:        "input",
+			Name:        "input, i",
 			Usage:       "inputfile",
 			Destination: &flags.FileIn,
 		},
 		cli.StringFlag{
-			Name:        "output",
+			Name:        "output, o",
 			Usage:       "output file",
 			Destination: &flags.FileOut,
 		},
@@ -64,7 +64,7 @@ func launch(_ *cli.Context) error{
 	var structNames []string
 	newFileContent := string(fileContent)
 	for _, item := range s {
-		fmt.Println("prettify item", item)
+
 		matched := strings.TrimSpace(item)
 		spaceIndex := strings.Index(matched, " ")
 		prettyName :=strings.Title(matched[spaceIndex+1 :len(matched)])
@@ -74,10 +74,16 @@ func launch(_ *cli.Context) error{
 		structNames = append(structNames, item)
 
 	}
-	fOut, err := os.Create(flags.FileOut)
+	var fOut *os.File
+	if flags.FileOut == "" {
+		fOut, _ = os.Create(flags.FileIn)
+	}else {
+		fOut, _ = os.Create(flags.FileOut)
+	}
+
 	defer fOut.Close()
 	fOut.WriteString(newFileContent)
-	fmt.Println(structNames)
+
 	return nil
 }
 
