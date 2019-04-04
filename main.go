@@ -21,8 +21,8 @@ var flags struct {
 
 func main() {
 	app := cli.NewApp()
-	app.Name = "structnames"
-	app.Usage = "REST APIs for getting agent details"
+	app.Name = "prettyProtoName"
+	app.Usage = "Prettify message names in a .proto file"
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:        "input, i",
